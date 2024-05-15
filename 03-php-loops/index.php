@@ -5,34 +5,36 @@
 $i = 1;
 
 while ($i <= 10) {
-  
-  
-  echo"7x $i"."=" . (7 * $i) . " <br/>";
+
+
+  echo "7x $i" . "=" . (7 * $i) . " <br/>";
   $i++;
 }
 
-echo"<br/> <br/>";
+echo "<br/> <br/>";
 
 //for
-//lista de nombres solo con j
+//multiplos de 5
+$i = 0;
 
-for ($x = 0; $x <= 10; $x++) {
-  if ($x == 3) continue;
-  echo "El numero es: $x <br>";
+for ($i = 5; $i <= 100; $i++) {
+  if ($i % 5 == 0) {
+    echo "$i es multiplo de 5"."<br>";
+  }
 }
 
-echo"<br/> <br/>";
+echo "<br/> <br/>";
 
 //foreach
 //lista de nombres
 
-$nombre= array("jairo", "jaun", "alberto");
+$nombre = array("jairo", "jaun", "alberto");
 
 
- 
-foreach($nombre as $x ) {
-    if($x == "jaun") continue;
-    echo"$x <br/>";
+
+foreach ($nombre as $x) {
+  if ($x == "jaun") continue;
+  echo "$x <br/>";
 }
 
 
