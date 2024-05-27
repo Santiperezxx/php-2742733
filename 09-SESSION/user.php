@@ -15,9 +15,9 @@ session_start();
 </head>
 <body>
 
-    <?php  if($_SESSION) : ?>
+    <?php  if(isset($_SESSION['userRegister'])) : ?>
     
-    <h1>Bienvenido <?php echo $_SESSION['nombre'];  ?> a tu pais <?php echo $_SESSION['pais']; ?></h1>
+    <h1>Bienvenido <?php echo $_SESSION['userRegister'];  ?> 🎃</h1>
 
     <a href="./cerrar.php"> Cerrar sesion</a>
     <a href="./index.php"> Home</a>
