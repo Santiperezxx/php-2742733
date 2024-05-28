@@ -18,7 +18,8 @@ $materia='psicologia';
 
 //Vamos a preparar una sentencia SQL y la gurdamos en una variable
 
-$statement = $conexion -> prepare("INSERT INTO `estudiantes` (`ID` ,`Nombre`, `Edad`,`Grado`, `Media técnica`) VALUES (NULL, :nombre, '16', '11', :materia)");
+$statement = $conexion -> prepare("INSERT INTO `estudiantes` (`ID` ,`Nombre`, `Edad`,`Grado`, `Media técnica`) 
+VALUES (NULL, :nombre, '16', '11', :materia)");
 
 //ejecutar el statement
 

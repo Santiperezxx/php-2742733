@@ -4,21 +4,35 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 $usuario = $_POST ['username'];
 $password= $_POST ['password'];
+$email= $_POST ['email'];}
 
 if( empty($usuario) or empty($password) ){
 
     echo "Rellene completo el formulario";
 
  } else{
-    //echo $usuario. '-' . $password;
     $_SESSION['userRegister'] = $usuario;
     $_SESSION['passRegister'] = $password;
-    //echo 'variables de sesion guardadas 🎈';
+    $_SESSION['emailRegister'] = $email;
 
-   // header( 'Location: index.php');
- }}
+    try{
+        $conexion = new PDO("mysql: host=localhost; dbname=focapp", 'root', ''); 
+        echo "Conexion OK". "<br>";
+    
+    } catch (PDOException $e) {
+        echo "Error:" . $e-> getMessage() . "<br>";
+    }
+
+    $statement = $conexion -> prepare("INSERT INTO `userapp` (`ID` ,`username`, `correo`,`contraseña`) 
+    VALUES (NULL, :username, :email, :pass)");
+    
+    $statement -> execute(array( ":username"=>$usuario, ":email"=>$email, ":pass"=>$password));
+
+    $statement = $statement-> fetchAll();
+
+ }
 ?>
-
+    
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +51,8 @@ if( empty($usuario) or empty($password) ){
 
     <label for="username">Usuario</label>
     <input id="username" type="text" placeholder="Nombre usuario" name="username">
-
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" placeholder="Email" required>
     <label for="password">Contraseña</label>
     <input type="password" name="password" placeholder="Password" id="password">
 
@@ -50,7 +65,7 @@ if( empty($usuario) or empty($password) ){
 if( isset($_SESSION['userRegister'])) : ?>
 
 <p>Datos registrados, ya puedes iniciar sesion</p>
-<p><?php  echo $_SESSION['userRegister'].'-' . $_SESSION['passRegister'] ; ?></p>
+<p><?php  echo $_SESSION['userRegister'].'-' . $_SESSION['passRegister'] . '-' . $_SESSION['emailRegister'] ; ?></p>
 <a href="index.php">Iniciar sesion</a>
 
 <?php   endif ?>
