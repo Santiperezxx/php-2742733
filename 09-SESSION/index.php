@@ -14,11 +14,24 @@ if( empty($usuario) or empty($password) ){
 
  } else{
     /* echo $usuario. '-' . $password; */
-    if($usuario == $user_register && $password == $pass_register ){
-        echo 'listo, iniciaste sesion 🎆';
-        header('Location: user.php');
-    } else{
-        echo 'Tu usuario no existe 🧥';
+    try{
+        $conexion = new PDO("mysql: host=localhost; dbname=focapp", 'root', ''); 
+        echo "Conexion OK". "<br>";
+    
+    } catch (PDOException $e) {
+        echo "Error:" . $e-> getMessage() . "<br>";
+    }
+
+    $statement = $conexion -> prepare("SELECT * FROM userapp WHERE username = :username AND contraseña = :pass");
+    
+    $statement -> execute(array( ":username"=>$usuario, ":pass"=>$password));
+
+    $result = $statement-> fetchAll();
+
+    if($result){
+        $_SESSION ['userRegister']= $usuario;
+        $_SESSION ['passRegister']= $password;
+        header('location:user.php');
     }
  }}
 
