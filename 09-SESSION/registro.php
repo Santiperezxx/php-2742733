@@ -4,6 +4,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 $usuario = $_POST ['username'];
 $password= $_POST ['password'];
+$password_2= $_POST ['password_2'];
 $email= $_POST ['email'];}
 
 if( empty($usuario) or empty($password) ){
@@ -13,6 +14,7 @@ if( empty($usuario) or empty($password) ){
  } else{
     $_SESSION['userRegister'] = $usuario;
     $_SESSION['passRegister'] = $password;
+    $_SESSION['pass2Register'] = $password_2;
     $_SESSION['emailRegister'] = $email;
 
     try{
@@ -29,6 +31,12 @@ if( empty($usuario) or empty($password) ){
     $statement -> execute(array( ":username"=>$usuario, ":email"=>$email, ":pass"=>$password));
 
     $statement = $statement-> fetchAll();
+
+    if($password == $password_2){
+        echo "datos enviados";
+    } else {
+        echo "contraseñas no coinciden";
+    }
 
  }
 ?>
@@ -50,11 +58,13 @@ if( empty($usuario) or empty($password) ){
 <form action="registro.php" method="post">
 
     <label for="username">Usuario</label>
-    <input id="username" type="text" placeholder="Nombre usuario" name="username">
+    <input id="username" type="text" placeholder="Nombre usuario" name="username"> <br>
     <label for="email">Email</label>
-    <input type="email" name="email" id="email" placeholder="Email" required>
+    <input type="email" name="email" id="email" placeholder="Email" required><br>
     <label for="password">Contraseña</label>
-    <input type="password" name="password" placeholder="Password" id="password">
+    <input type="password" name="password" placeholder="Password" id="password"><br>
+    <label for="password_2">Confirmar contraseña</label>
+    <input type="password" name="password_2" placeholder="Password" id="password_2"><br>
 
     <button type="submit">Registrarse</button>
 
@@ -62,13 +72,20 @@ if( empty($usuario) or empty($password) ){
 
 <?php
 
-if( isset($_SESSION['userRegister'])) : ?>
+if($_SESSION['passRegister'] == $_SESSION ['pass2Register'] ){
+    echo"Datos registrados  <br> $usuario <br> $password <br> $email <br>" ;
+} else{
+    echo"No coinciden";
+}
 
-<p>Datos registrados, ya puedes iniciar sesion</p>
-<p><?php  echo $_SESSION['userRegister'].'-' . $_SESSION['passRegister'] . '-' . $_SESSION['emailRegister'] ; ?></p>
+
+
+?>
+
+
 <a href="index.php">Iniciar sesion</a>
 
-<?php   endif ?>
+
 
 
 </body>

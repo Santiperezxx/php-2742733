@@ -57,6 +57,7 @@ if( empty($usuario) or empty($password) ){
 
     <label for="password">Contraseña</label>
     <input type="password" name="password" placeholder="Password" id="password">
+    
 
     <button type="submit">Inicio sesion</button>
 
