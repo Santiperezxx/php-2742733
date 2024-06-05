@@ -1,71 +1,88 @@
-<?php session_start();
 
-if($_SERVER["REQUEST_METHOD"] == 'POST'){
+<?php   session_start();
 
-$usuario = $_POST ['username'];
-$password= $_POST ['password'];
+$alerta = 'rellene el formulario';
 
-$user_register =isset($_SESSION['userRegister']) ? $_SESSION ['userRegister'] : null;
-$pass_register =isset($_SESSION['passRegister']) ? $_SESSION ['passRegister'] : null;
-
-if( empty($usuario) or empty($password) ){
-
-    echo "Rellene completo el formulario";
-
- } else{
-    /* echo $usuario. '-' . $password; */
-    try{
-        $conexion = new PDO("mysql: host=localhost; dbname=focapp", 'root', ''); 
-        echo "Conexion OK". "<br>";
+    if ($_SERVER["REQUEST_METHOD"] == "POST"){
+        $usuario = $_POST ['username'];
+        $password = $_POST ['password'];
     
-    } catch (PDOException $e) {
-        echo "Error:" . $e-> getMessage() . "<br>";
+        $user_register = isset($_SESSION['userRegister']) ? $_SESSION ['userRegister'] : null;
+        $pass_register = isset($_SESSION['passRegister']) ? $_SESSION ['passRegister'] : null;
+
     }
 
-    $statement = $conexion -> prepare("SELECT * FROM userapp WHERE username = :username AND contraseña = :pass");
+
+    if (empty($usuario) or empty($password)){
+        echo '<div class="alert alert-danger" role="alert">' . $alerta . '</div>';
+
+    }  else{
+        try {
+            $conexion = new PDO("mysql: host=localhost; dbname=focaapp",'root','');
+            echo "conexion OK <br>";
+        } catch (PDOException $e) {
+            echo "Error:" . $e->getMessage();
+        } 
+        $statement = $conexion->prepare(" SELECT *  FROM userapp WHERE Username = :username AND Password = :pass ");
     
-    $statement -> execute(array( ":username"=>$usuario, ":pass"=>$password));
+        $statement->execute ( array( ":username"=>$usuario, ":pass"=>$password ));
+    
+        $result = $statement->fetchAll();
+        /* print_r($statement);   */ 
 
-    $result = $statement-> fetchAll();
+        if($result){
+            $_SESSION['userRegister']= $usuario;
+            $_SESSION['passRegister']= $password;
+            header('location:user.php');
 
-    if($result){
-        $_SESSION ['userRegister']= $usuario;
-        $_SESSION ['passRegister']= $password;
-        header('location:user.php');
+            echo'intenta mas tarde';
+        } else {
+            echo'Usuario o contraseña podrian estar incorrectos';
+        }
+        
+        //count(array)
+
     }
- }}
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=x, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
 </head>
 <body>
+
+    <div class="fondo">
+    <div class="todo">
+    <h1 style="text-align:center; font-size: 40px; width: 400px;color: #13ad99; justify-content:center; display:flex; ">Pagina de inicio <br>
+    Sesion inicializada</h1>
     
-<h1>Pagina de inicio, sesion inicializada</h1>
-
-
-
-<form action="index.php" method="post">
-
-    <label for="username">Usuario</label>
-    <input id="username" type="text" placeholder="Nombre usuario" name="username">
-
-    <label for="password">Contraseña</label>
-    <input type="password" name="password" placeholder="Password" id="password">
+   
     
 
-    <button type="submit">Inicio sesion</button>
+    <form class="solo"  action="index.php" method="post">
 
-</form>
+ <!--    <label for="username">User</label> -->
+    <input class="user_C" id="username" type="text" placeholder="User" name="username">
+<!--     <label for="password">Password</label> -->
+    <input class="user_C" id="password" type="password" placeholder="Password" name="password">
+    <button class="boton2" type="submit">Iniciar sesion</button>
+
+    </form>
 
 
-<a href="./registro.php">Registrate</a>
+    <a class="iniciar" href="./registro.php">Registro</a>
+    </div>
+    </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
 </body>
 </html>
