@@ -6,6 +6,7 @@
         echo "datos enviados";
         $tituloCurso = $_POST['tituloCurso'];
 
+        //datos de imagen capturados 
         $imagenCurso = $_FILES['imagenCurso']['tmp_name'];
         $nombreImagen = $_FILES['imagenCurso']['name'];
         $tipoImagen = pathinfo($nombreImagen, PATHINFO_EXTENSION);

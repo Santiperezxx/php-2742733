@@ -23,7 +23,7 @@
         } catch (PDOException $e) {
             echo "Error:" . $e->getMessage();
         } 
-        $statement = $conexion->prepare(" INSERT INTO `userapp` (`ID`, `Username`, `Email`, `Password`)
+        $statement = $conexion->prepare(" INSERT INTO `usersapp` (`ID`, `Username`, `Email`, `Password`)
         VALUES (NULL, :username, :email, :pass)" );
     
         $statement->execute(array(":username"=>$usuario,":email"=>$email,":pass"=>$password));
@@ -63,7 +63,7 @@
 <body>
     <div class="fondo">
         <div class="todo">
-            <h1 style="color: #13ad99; justify-content:center; display:flex; ">Registrate</h1>
+            <h1 style="color: #2b1de9; justify-content:center; display:flex; ">Registrate</h1>
 
             <!-- <p style="color: blue"> <?php echo $orden ?>  </p> -->
 
@@ -77,12 +77,12 @@
                 <input class="user_C" id="password" type="password" placeholder="Password" name="password"> <br>
                 <!--  <label for="password_2">Password</label> -->
                 <input class="user_C" id="password_2" type="password" placeholder="Password" name="password_2"> <br>
-                <button class="boton" type="submit">Registro</button>
+                <button class="boton" style="background-color: #2b1de9;" type="submit">Registro</button>
 
             </form>
 
             <br>
-            <a class="iniciar" href="index.php">
+            <a class="iniciar" style="background-color: #2b1de9;" href="./user.php" style="padding: 10px;">
                 Iniciar sesion </a>
         </div>
     </div>
